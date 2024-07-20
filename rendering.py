@@ -367,3 +367,102 @@ def draw_triangle_u(canvas, x, y, size, line_color, consonant_type, attached):
     canvas.create_polygon(x, y, x + size, y, x + size / 2, y - size, outline=line_color, width=2, fill="")
     canvas.create_line(x + size / 2, y, x + size / 2, y - size * -1.75, fill=line_color, width=2)
 
+
+def draw_period(canvas, x, y, size, line_color):
+    canvas.create_oval(x + size * 0.2, y + size * 0.1, x + size * 0.4, y - size * 0.1, fill=line_color, outline=line_color)
+    canvas.create_line(x, y, x + size * 0.6, y, fill=line_color, width=2)
+
+
+def draw_comma(canvas, x, y, size, line_color):
+    canvas.create_oval(x, y + size * 0.1, x + size * 0.2, y - size * 0.1, fill=line_color, outline=line_color)
+    canvas.create_oval(x + size * 0.4, y + size * 0.1, x + size * 0.6, y - size * 0.1, fill=line_color, outline=line_color)
+    canvas.create_line(x, y, x + size * 0.7, y, fill=line_color, width=2)
+
+
+def draw_semicolon(canvas, x, y, size, line_color):
+    canvas.create_oval(x + size * 0.2, y - size * 0.2, x + size * 0.4, y - size * 0.4, fill=line_color, outline=line_color)
+    canvas.create_line(x + size * 0.3, y + size * 0.2, x + size * 0.3, y + size * 0.5, fill=line_color, width=2)
+    canvas.create_line(x, y, x + size * 0.6, y, fill=line_color, width=2)
+
+
+def draw_colon(canvas, x, y, size, line_color):
+    canvas.create_oval(x + size * 0.2, y - size * 0.2, x + size * 0.4, y - size * 0.4, fill=line_color, outline=line_color)
+    canvas.create_oval(x + size * 0.2, y + size * 0.2, x + size * 0.4, y + size * 0.4, fill=line_color, outline=line_color)
+    canvas.create_line(x, y, x + size * 0.6, y, fill=line_color, width=2)
+
+
+def draw_dash(canvas, x, y, size, line_color):
+    canvas.create_oval(x + size * 0.4, y - size * 0.2, x + size * 0.6, y - size * 0.4, fill=line_color,outline=line_color)
+    canvas.create_line(x + size * 0.2, y - size * 0.3, x + size * 0.8, y - size * 0.3, fill=line_color, width=2)
+    canvas.create_line(x, y, x + size, y, fill=line_color, width=2)
+
+
+def draw_question_mark(canvas, x, y, size, line_color):
+    canvas.create_oval(x + size * 0.2, y - size * 0.2, x + size * 0.4, y - size * 0.4, fill=line_color, outline=line_color)
+    canvas.create_line(x + size * 0.3, y - size * 0.3, x + size * 0.3, y - size * 0.8, fill=line_color, width=2)
+    canvas.create_line(x, y, x + size * 0.6, y, fill=line_color, width=2)
+
+
+def draw_exclamation_mark(canvas, x, y, size, line_color):
+    canvas.create_oval(x + size * 0.2, y - size * 0.2, x + size * 0.4, y - size * 0.4, fill=line_color, outline=line_color)
+    canvas.create_line(x + size * 0.3, y - size * 0.3, x + size * 0.3, y + size * 0.2, fill=line_color, width=2)
+    canvas.create_line(x, y, x + size * 0.6, y, fill=line_color, width=2)
+
+
+def draw_interrobang(canvas, x, y, size, line_color):
+    canvas.create_oval(x + size * 0.2, y - size * 0.2, x + size * 0.4, y - size * 0.4, fill=line_color, outline=line_color)
+    canvas.create_line(x + size * 0.3, y - size * 0.8, x + size * 0.3, y + size * 0.2, fill=line_color, width=2)
+    canvas.create_line(x, y, x + size * 0.6, y, fill=line_color, width=2)
+
+
+def draw_apostrophe(canvas, x, y, size, line_color):
+    canvas.create_line(x + size * 0.15, y, x + size * 0.15, y - size * 0.8, fill=line_color, width=2)
+    canvas.create_line(x, y, x + size * 0.3, y, fill=line_color, width=2)
+
+
+def draw_quote_mark(canvas, x, y, size, line_color):
+    canvas.create_line(x + size * 0.15, y, x + size * 0.15, y - size * 0.8, fill=line_color, width=2)
+    canvas.create_line(x + size * 0.3, y, x + size * 0.3, y - size * 0.8, fill=line_color, width=2)
+    canvas.create_line(x, y, x + size * 0.5, y, fill=line_color, width=2)
+
+
+def draw_ellipsis(canvas, x, y, size, line_color):
+    canvas.create_oval(x + size * 0.21, y + size * 0.1, x + size * 0.41, y - size * 0.1, fill=line_color, outline=line_color)
+    canvas.create_oval(x + size * 0.64, y + size * 0.1, x + size * 0.84, y - size * 0.1, fill=line_color, outline=line_color)
+    canvas.create_oval(x + size * 1.07, y + size * 0.1, x + size * 1.27, y - size * 0.1, fill=line_color, outline=line_color)
+    canvas.create_line(x, y, x + size * 1.5, y, fill=line_color, width=2)
+
+
+def draw_open_bracket(canvas, x, y, size, line_color):
+    canvas.create_line(x + size * 0.2, y, x + size * 0.7, y - size * 0.5, fill=line_color, width=2)
+    canvas.create_line(x, y, x + size, y, fill=line_color, width=2)
+
+
+def draw_close_bracket(canvas, x, y, size, line_color):
+    canvas.create_line(x + size * 0.2, y - size * 0.5, x + size * 0.7, y, fill=line_color, width=2)
+    canvas.create_line(x, y, x + size, y, fill=line_color, width=2)
+
+
+def draw_open_square_bracket(canvas, x, y, size, line_color):
+    canvas.create_line(x + size * 0.2, y, x + size * 0.7, y - size * 0.5, fill=line_color, width=2)
+    canvas.create_line(x + size * 0.2, y, x + size * 0.7, y + size * 0.5, fill=line_color, width=2)
+    canvas.create_line(x, y, x + size, y, fill=line_color, width=2)
+
+
+def draw_close_square_bracket(canvas, x, y, size, line_color):
+    canvas.create_line(x + size * 0.2, y - size * 0.5, x + size * 0.7, y, fill=line_color, width=2)
+    canvas.create_line(x + size * 0.2, y + size * 0.5, x + size * 0.7, y, fill=line_color, width=2)
+    canvas.create_line(x, y, x + size, y, fill=line_color, width=2)
+
+
+def draw_forward_slash(canvas, x, y, size, line_color):
+    canvas.create_line(x + size * 0.25, y + size * 0.5, x + size * 0.75, y, fill=line_color, width=2)
+    canvas.create_line(x + size * 0.75, y, x + size * 1.25, y  - size * 0.5, fill=line_color, width=2)
+    canvas.create_line(x, y, x + size * 1.5, y, fill=line_color, width=2)
+
+
+def draw_ampersand(canvas, x, y, size, line_color):
+    canvas.create_oval(x + size * 0.4, y + size * 0.1, x + size * 0.6, y - size * 0.1, fill=line_color, outline=line_color)
+    canvas.create_arc(x + size * 0.2, y + size * 0.3, x + size * 0.8, y - size * 0.3, start=90, extent=90, outline=line_color, width=2, style=tkinter.ARC)
+    canvas.create_arc(x + size * 0.2, y + size * 0.3, x + size * 0.8, y - size * 0.3, start=-90, extent=90, outline=line_color, width=2, style=tkinter.ARC)
+    canvas.create_line(x, y, x + size, y, fill=line_color, width=2)

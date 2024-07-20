@@ -6,7 +6,7 @@ from conversions import render_shape, double_consonants
 class ShapeRenderer:
     def __init__(self, master):
         self.master = master
-        self.master.title("Rooks Gallifreyan")
+        self.master.title("Rook's Gallifreyan")
 
         self.create_menu()
         self.create_toolbar()
@@ -134,7 +134,16 @@ class ShapeRenderer:
                 x = 10
                 y += self.line_height * 2
 
-            if i < len(text) - 1 and text[i:i + 2] in double_consonants:
+            if text[i] == '\n':
+                x = 10
+                y += self.line_height * 2
+                i += 1
+                continue
+
+            if i < len(text) - 2 and text[i:i + 3] == "...":
+                char = "..."
+                i += 3
+            elif i < len(text) - 1 and text[i:i + 2] in double_consonants:
                 char = text[i:i + 2]
                 i += 2
             else:
