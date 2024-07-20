@@ -9,80 +9,79 @@ CONSONANT_TYPES = {
 }
 
 
-def draw_wordline(canvas, x, y, size):
-    canvas.create_line(x - size * 0.25, y, x, y, fill="black", width=2)
-    canvas.create_line(x + size, y, x + size * 1.25, y, fill="black", width=2)
+def draw_wordline(canvas, x, y, size, line_color):
+    canvas.create_line(x - size * 0.25, y, x, y, fill=line_color, width=2)
+    canvas.create_line(x + size, y, x + size * 1.25, y, fill=line_color, width=2)
 
 
-def draw_circle(canvas, x, y, size):
-    canvas.create_oval(x, y, x + size, y + size, outline="black", width=2)
+def draw_circle(canvas, x, y, size, line_color):
+    canvas.create_oval(x, y, x + size, y + size, outline=line_color, width=2)
 
 
-def draw_cut_circle(canvas, x, y, size):
+def draw_cut_circle(canvas, x, y, size, line_color):
     y_offset = size * 0.86
-    canvas.create_arc(x, y - y_offset, x + size, y + size - y_offset, start=-45, extent=270, outline="black", width=2, style=tkinter.ARC)
-    canvas.create_line(x - size * 0.25, y, x + size * 0.15, y, fill="black", width=2)
-    canvas.create_line(x + size * 0.85, y, x + size * 1.25, y, fill="black", width=2)
+    canvas.create_arc(x, y - y_offset, x + size, y + size - y_offset, start=-45, extent=270, outline=line_color, width=2, style=tkinter.ARC)
+    canvas.create_line(x - size * 0.25, y, x + size * 0.15, y, fill=line_color, width=2)
+    canvas.create_line(x + size * 0.85, y, x + size * 1.25, y, fill=line_color, width=2)
 
 
-def draw_floating_circle(canvas, x, y, size):
+def draw_floating_circle(canvas, x, y, size, line_color):
     y_offset = size * 1.25
-    canvas.create_line(x, y, x + size, y, fill="black", width=2)
-    canvas.create_oval(x, y - y_offset, x + size, y + size - y_offset, outline="black", width=2)
-    draw_wordline(canvas, x, y, size)
+    canvas.create_line(x, y, x + size, y, fill=line_color, width=2)
+    canvas.create_oval(x, y - y_offset, x + size, y + size - y_offset, outline=line_color, width=2)
+    draw_wordline(canvas, x, y, size, line_color)
 
 
-def draw_semicircle(canvas, x, y, size):
+def draw_semicircle(canvas, x, y, size, line_color):
     y_offset = size * 0.5
-    canvas.create_arc(x, y - y_offset, x + size, y + size - y_offset, start=0, extent=180, outline="black", width=2, style=tkinter.ARC)
-    draw_wordline(canvas, x, y, size)
+    canvas.create_arc(x, y - y_offset, x + size, y + size - y_offset, start=0, extent=180, outline=line_color, width=2, style=tkinter.ARC)
+    draw_wordline(canvas, x, y, size, line_color)
 
 
-def draw_combined_circle(canvas, x, y, size):
-    canvas.create_oval(x, y - size // 2, x + size, y + size // 2, outline="black", width=2)
-    canvas.create_line(x, y, x + size, y, fill="black", width=2)
+def draw_combined_circle(canvas, x, y, size, line_color):
+    canvas.create_oval(x, y - size // 2, x + size, y + size // 2, outline=line_color, width=2)
+    canvas.create_line(x, y, x + size, y, fill=line_color, width=2)
 
 
-def draw_one_dot(canvas, x, y, size, base_height):
+def draw_one_dot(canvas, x, y, size, base_height, line_color):
     # The base height is used to move the modifier symbols up or down relative to which consonant they are attached to
-    canvas.create_oval(x + size * 0.45, y - size * 0.4 - base_height, x + size * 0.55, y - size * 0.5 - base_height, fill="black")
+    canvas.create_oval(x + size * 0.45, y - size * 0.4 - base_height, x + size * 0.55, y - size * 0.5 - base_height, fill=line_color, outline=line_color)
 
 
-def draw_two_dots(canvas, x, y, size, base_height):
-    canvas.create_oval(x + size * 0.2, y - size * 0.35 - base_height, x + size * 0.3, y - size * 0.45 - base_height, fill="black")
-    canvas.create_oval(x + size * 0.7, y - size * 0.35 - base_height, x + size * 0.8, y - size * 0.45 - base_height, fill="black")
+def draw_two_dots(canvas, x, y, size, base_height, line_color):
+    canvas.create_oval(x + size * 0.2, y - size * 0.35 - base_height, x + size * 0.3, y - size * 0.45 - base_height, fill=line_color, outline=line_color)
+    canvas.create_oval(x + size * 0.7, y - size * 0.35 - base_height, x + size * 0.8, y - size * 0.45 - base_height, fill=line_color, outline=line_color)
 
 
-def draw_three_dots(canvas, x, y, size, base_height):
-    canvas.create_oval(x + size * 0, y - size * 0.2 - base_height, x + size * 0.1, y - size * 0.3 - base_height, fill="black")
-    canvas.create_oval(x + size * 0.45, y - size * 0.4 - base_height, x + size * 0.55, y - size * 0.5 - base_height, fill="black")
-    canvas.create_oval(x + size * 0.9, y - size * 0.2 - base_height, x + size, y - size * 0.3 - base_height, fill="black")
+def draw_three_dots(canvas, x, y, size, base_height, line_color):
+    canvas.create_oval(x + size * 0, y - size * 0.2 - base_height, x + size * 0.1, y - size * 0.3 - base_height, fill=line_color, outline=line_color)
+    canvas.create_oval(x + size * 0.45, y - size * 0.4 - base_height, x + size * 0.55, y - size * 0.5 - base_height, fill=line_color, outline=line_color)
+    canvas.create_oval(x + size * 0.9, y - size * 0.2 - base_height, x + size, y - size * 0.3 - base_height, fill=line_color, outline=line_color)
 
 
-def draw_four_dots(canvas, x, y, size, base_height):
-    canvas.create_oval(x + size * 0, y - size * 0.2 - base_height, x + size * 0.1, y - size * 0.3 - base_height, fill="black")
-    canvas.create_oval(x + size * 0.2, y - size * 0.35 - base_height, x + size * 0.3, y - size * 0.45 - base_height, fill="black")
-    canvas.create_oval(x + size * 0.7, y - size * 0.35 - base_height, x + size * 0.8, y - size * 0.45 - base_height, fill="black")
-    canvas.create_oval(x + size * 0.9, y - size * 0.2 - base_height, x + size, y - size * 0.3 - base_height, fill="black")
+def draw_four_dots(canvas, x, y, size, base_height, line_color):
+    canvas.create_oval(x + size * 0, y - size * 0.2 - base_height, x + size * 0.1, y - size * 0.3 - base_height, fill=line_color, outline=line_color)
+    canvas.create_oval(x + size * 0.2, y - size * 0.35 - base_height, x + size * 0.3, y - size * 0.45 - base_height, fill=line_color, outline=line_color)
+    canvas.create_oval(x + size * 0.7, y - size * 0.35 - base_height, x + size * 0.8, y - size * 0.45 - base_height, fill=line_color, outline=line_color)
+    canvas.create_oval(x + size * 0.9, y - size * 0.2 - base_height, x + size, y - size * 0.3 - base_height, fill=line_color, outline=line_color)
 
 
-def draw_single_line(canvas, x, y, size, base_height):
-    canvas.create_line(x + size * 0.8, y - size * 0.2 - base_height, x + size * 1.2, y - size * 0.6 - base_height, fill="black", width=2)
+def draw_single_line(canvas, x, y, size, base_height, line_color):
+    canvas.create_line(x + size * 0.8, y - size * 0.2 - base_height, x + size * 1.2, y - size * 0.6 - base_height, fill=line_color, width=2)
 
 
-def draw_double_line(canvas, x, y, size, base_height):
-    # Second line starts at x 0.9 and y 0.1, but at the same angle (and shorter than the first line)
-    canvas.create_line(x + size * 0.8, y - size * 0.2 - base_height, x + size * 1.2, y - size * 0.6 - base_height, fill="black", width=2)
-    canvas.create_line(x + size * 0.9, y - size * 0.1 - base_height, x + size * 1.2, y - size * 0.4 - base_height, fill="black", width=2)
+def draw_double_line(canvas, x, y, size, base_height, line_color):
+    canvas.create_line(x + size * 0.8, y - size * 0.2 - base_height, x + size * 1.2, y - size * 0.6 - base_height, fill=line_color, width=2)
+    canvas.create_line(x + size * 0.9, y - size * 0.1 - base_height, x + size * 1.2, y - size * 0.4 - base_height, fill=line_color, width=2)
 
 
-def draw_triple_line(canvas, x, y, size, base_height):
-    canvas.create_line(x + size * 0.8, y - size * 0.2 - base_height, x + size * 1.2, y - size * 0.6 - base_height, fill="black", width=2)
-    canvas.create_line(x + size * 0.9, y - size * 0.1 - base_height, x + size * 1.2, y - size * 0.4 - base_height, fill="black", width=2)
-    canvas.create_line(x + size * 0.7, y - size * 0.28 - base_height, x + size * 0.97, y - size * 0.55 - base_height, fill="black", width=2)
+def draw_triple_line(canvas, x, y, size, base_height, line_color):
+    canvas.create_line(x + size * 0.8, y - size * 0.2 - base_height, x + size * 1.2, y - size * 0.6 - base_height, fill=line_color, width=2)
+    canvas.create_line(x + size * 0.9, y - size * 0.1 - base_height, x + size * 1.2, y - size * 0.4 - base_height, fill=line_color, width=2)
+    canvas.create_line(x + size * 0.7, y - size * 0.28 - base_height, x + size * 0.97, y - size * 0.55 - base_height, fill=line_color, width=2)
 
 
-def draw_consonant(canvas, char, x, y, size):
+def draw_consonant(canvas, char, x, y, size, line_color):
     consonant_map = {
         'b': (draw_cut_circle, CONSONANT_TYPES['cut_circle']),
         'c': (draw_c, CONSONANT_TYPES['floating_circle']),
@@ -118,160 +117,160 @@ def draw_consonant(canvas, char, x, y, size):
     }
 
     base_char, consonant_type = consonant_map.get(char, (draw_circle, CONSONANT_TYPES['default']))
-    base_char(canvas, x, y, size)
-    draw_wordline(canvas, x, y, size)
+    base_char(canvas, x, y, size, line_color)
+    draw_wordline(canvas, x, y, size, line_color)
     return consonant_type
 
 
-def draw_c(canvas, x, y, size):
-    draw_floating_circle(canvas, x, y, size)
-    draw_four_dots(canvas, x, y, size, size * 0.95)
+def draw_c(canvas, x, y, size, line_color):
+    draw_floating_circle(canvas, x, y, size, line_color)
+    draw_four_dots(canvas, x, y, size, size * 0.95, line_color)
 
 
-def draw_d(canvas, x, y, size):
-    draw_cut_circle(canvas, x, y, size)
-    draw_three_dots(canvas, x, y, size, size * 0.55)
+def draw_d(canvas, x, y, size, line_color):
+    draw_cut_circle(canvas, x, y, size, line_color)
+    draw_three_dots(canvas, x, y, size, size * 0.55, line_color)
 
 
-def draw_f(canvas, x, y, size):
-    draw_cut_circle(canvas, x, y, size)
-    draw_triple_line(canvas, x, y, size, size * 0.55)
+def draw_f(canvas, x, y, size, line_color):
+    draw_cut_circle(canvas, x, y, size, line_color)
+    draw_triple_line(canvas, x, y, size, size * 0.55, line_color)
 
 
-def draw_g(canvas, x, y, size):
-    draw_cut_circle(canvas, x, y, size)
-    draw_single_line(canvas, x, y, size, size * 0.55)
+def draw_g(canvas, x, y, size, line_color):
+    draw_cut_circle(canvas, x, y, size, line_color)
+    draw_single_line(canvas, x, y, size, size * 0.55, line_color)
 
 
-def draw_h(canvas, x, y, size):
-    draw_cut_circle(canvas, x, y, size)
-    draw_double_line(canvas, x, y, size, size * 0.55)
+def draw_h(canvas, x, y, size, line_color):
+    draw_cut_circle(canvas, x, y, size, line_color)
+    draw_double_line(canvas, x, y, size, size * 0.55, line_color)
 
 
-def draw_k(canvas, x, y, size):
-    draw_floating_circle(canvas, x, y, size)
-    draw_two_dots(canvas, x, y, size, size * 0.95)
+def draw_k(canvas, x, y, size, line_color):
+    draw_floating_circle(canvas, x, y, size, line_color)
+    draw_two_dots(canvas, x, y, size, size * 0.95, line_color)
 
 
-def draw_l(canvas, x, y, size):
-    draw_floating_circle(canvas, x, y, size)
-    draw_three_dots(canvas, x, y, size, size * 0.95)
+def draw_l(canvas, x, y, size, line_color):
+    draw_floating_circle(canvas, x, y, size, line_color)
+    draw_three_dots(canvas, x, y, size, size * 0.95, line_color)
 
 
-def draw_m(canvas, x, y, size):
-    draw_floating_circle(canvas, x, y, size)
-    draw_triple_line(canvas, x, y, size, size * 0.95)
+def draw_m(canvas, x, y, size, line_color):
+    draw_floating_circle(canvas, x, y, size, line_color)
+    draw_triple_line(canvas, x, y, size, size * 0.95, line_color)
 
 
-def draw_n(canvas, x, y, size):
-    draw_floating_circle(canvas, x, y, size)
-    draw_single_line(canvas, x, y, size, size * 0.95)
+def draw_n(canvas, x, y, size, line_color):
+    draw_floating_circle(canvas, x, y, size, line_color)
+    draw_single_line(canvas, x, y, size, size * 0.95, line_color)
 
 
-def draw_p(canvas, x, y, size):
-    draw_floating_circle(canvas, x, y, size)
-    draw_double_line(canvas, x, y, size, size * 0.95)
+def draw_p(canvas, x, y, size, line_color):
+    draw_floating_circle(canvas, x, y, size, line_color)
+    draw_double_line(canvas, x, y, size, size * 0.95, line_color)
 
 
-def draw_q(canvas, x, y, size):
-    draw_combined_circle(canvas, x, y, size)
-    draw_four_dots(canvas, x, y, size, size * 0.2)
+def draw_q(canvas, x, y, size, line_color):
+    draw_combined_circle(canvas, x, y, size, line_color)
+    draw_four_dots(canvas, x, y, size, size * 0.2, line_color)
 
 
-def draw_r(canvas, x, y, size):
-    draw_semicircle(canvas, x, y, size)
-    draw_three_dots(canvas, x, y, size, size * 0.2)
+def draw_r(canvas, x, y, size, line_color):
+    draw_semicircle(canvas, x, y, size, line_color)
+    draw_three_dots(canvas, x, y, size, size * 0.2, line_color)
 
 
-def draw_s(canvas, x, y, size):
-    draw_semicircle(canvas, x, y, size)
-    draw_triple_line(canvas, x, y, size, size * 0.2)
+def draw_s(canvas, x, y, size, line_color):
+    draw_semicircle(canvas, x, y, size, line_color)
+    draw_triple_line(canvas, x, y, size, size * 0.2, line_color)
 
 
-def draw_v(canvas, x, y, size):
-    draw_semicircle(canvas, x, y, size)
-    draw_single_line(canvas, x, y, size, size * 0.2)
+def draw_v(canvas, x, y, size, line_color):
+    draw_semicircle(canvas, x, y, size, line_color)
+    draw_single_line(canvas, x, y, size, size * 0.2, line_color)
 
 
-def draw_w(canvas, x, y, size):
-    draw_semicircle(canvas, x, y, size)
-    draw_double_line(canvas, x, y, size, size * 0.2)
+def draw_w(canvas, x, y, size, line_color):
+    draw_semicircle(canvas, x, y, size, line_color)
+    draw_double_line(canvas, x, y, size, size * 0.2, line_color)
 
 
-def draw_x(canvas, x, y, size):
-    draw_combined_circle(canvas, x, y, size)
-    draw_double_line(canvas, x, y, size, size * 0.2)
+def draw_x(canvas, x, y, size, line_color):
+    draw_combined_circle(canvas, x, y, size, line_color)
+    draw_double_line(canvas, x, y, size, size * 0.2, line_color)
 
 
-def draw_y(canvas, x, y, size):
-    draw_combined_circle(canvas, x, y, size)
-    draw_three_dots(canvas, x, y, size, size * 0.2)
+def draw_y(canvas, x, y, size, line_color):
+    draw_combined_circle(canvas, x, y, size, line_color)
+    draw_three_dots(canvas, x, y, size, size * 0.2, line_color)
 
 
-def draw_z(canvas, x, y, size):
-    draw_combined_circle(canvas, x, y, size)
-    draw_four_dots(canvas, x, y, size, size * 0.2)
+def draw_z(canvas, x, y, size, line_color):
+    draw_combined_circle(canvas, x, y, size, line_color)
+    draw_four_dots(canvas, x, y, size, size * 0.2, line_color)
 
 
-def draw_ch(canvas, x, y, size):
-    draw_cut_circle(canvas, x, y, size)
-    draw_two_dots(canvas, x, y, size, size * 0.55)
+def draw_ch(canvas, x, y, size, line_color):
+    draw_cut_circle(canvas, x, y, size, line_color)
+    draw_two_dots(canvas, x, y, size, size * 0.55, line_color)
 
 
-def draw_sh(canvas, x, y, size):
-    draw_semicircle(canvas, x, y, size)
-    draw_two_dots(canvas, x, y, size, size * 0.2)
+def draw_sh(canvas, x, y, size, line_color):
+    draw_semicircle(canvas, x, y, size, line_color)
+    draw_two_dots(canvas, x, y, size, size * 0.2, line_color)
 
 
-def draw_ng(canvas, x, y, size):
-    draw_combined_circle(canvas, x, y, size)
-    draw_triple_line(canvas, x, y, size, size * 0.2)
+def draw_ng(canvas, x, y, size, line_color):
+    draw_combined_circle(canvas, x, y, size, line_color)
+    draw_triple_line(canvas, x, y, size, size * 0.2, line_color)
 
 
-def draw_ph(canvas, x, y, size):
-    draw_floating_circle(canvas, x, y, size)
-    draw_one_dot(canvas, x, y, size, size * 0.95)
+def draw_ph(canvas, x, y, size, line_color):
+    draw_floating_circle(canvas, x, y, size, line_color)
+    draw_one_dot(canvas, x, y, size, size * 0.95, line_color)
 
 
-def draw_wh(canvas, x, y, size):
-    draw_semicircle(canvas, x, y, size)
-    draw_one_dot(canvas, x, y, size, size * 0.2)
+def draw_wh(canvas, x, y, size, line_color):
+    draw_semicircle(canvas, x, y, size, line_color)
+    draw_one_dot(canvas, x, y, size, size * 0.2, line_color)
 
 
-def draw_nt(canvas, x, y, size):
-    draw_semicircle(canvas, x, y, size)
-    draw_four_dots(canvas, x, y, size, size * 0.2)
+def draw_nt(canvas, x, y, size, line_color):
+    draw_semicircle(canvas, x, y, size, line_color)
+    draw_four_dots(canvas, x, y, size, size * 0.2, line_color)
 
 
-def draw_nd(canvas, x, y, size):
-    draw_cut_circle(canvas, x, y, size)
-    draw_four_dots(canvas, x, y, size, size * 0.55)
+def draw_nd(canvas, x, y, size, line_color):
+    draw_cut_circle(canvas, x, y, size, line_color)
+    draw_four_dots(canvas, x, y, size, size * 0.55, line_color)
 
 
-def draw_qu(canvas, x, y, size):
-    draw_combined_circle(canvas, x, y, size)
-    draw_single_line(canvas, x, y, size, size * 0.2)
+def draw_qu(canvas, x, y, size, line_color):
+    draw_combined_circle(canvas, x, y, size, line_color)
+    draw_single_line(canvas, x, y, size, size * 0.2, line_color)
 
 
-def draw_gh(canvas, x, y, size):
-    draw_combined_circle(canvas, x, y, size)
-    draw_one_dot(canvas, x, y, size, size * 0.2)
+def draw_gh(canvas, x, y, size, line_color):
+    draw_combined_circle(canvas, x, y, size, line_color)
+    draw_one_dot(canvas, x, y, size, size * 0.2, line_color)
 
 
-def draw_standalone_vowel(canvas, char, x, y, size, consonant_type=None):
-    draw_vowel(canvas, char, x, y, size * 0.3, consonant_type)
-    draw_line_under_vowel(canvas, x, y, size)
+def draw_standalone_vowel(canvas, char, x, y, size, line_color, consonant_type=None):
+    draw_vowel(canvas, char, x, y, size * 0.3, line_color, consonant_type)
+    draw_line_under_vowel(canvas, x, y, size, line_color)
 
 
-def draw_attached_vowel(canvas, char, x, y, size, consonant_type):
-    draw_vowel(canvas, char, x, y, size * 0.3, consonant_type, attached=True)
+def draw_attached_vowel(canvas, char, x, y, size, line_color, consonant_type):
+    draw_vowel(canvas, char, x, y, size * 0.3, line_color, consonant_type, attached=True)
 
 
-def draw_line_under_vowel(canvas, x, y, size):
-    canvas.create_line(x - size * 0.25, y, x + size * 0.45, y, fill="black", width=2)
+def draw_line_under_vowel(canvas, x, y, size, line_color):
+    canvas.create_line(x - size * 0.25, y, x + size * 0.45, y, fill=line_color, width=2)
 
 
-def draw_vowel(canvas, char, x, y, size, consonant_type, attached=False):
+def draw_vowel(canvas, char, x, y, size, line_color, consonant_type, attached=False):
     vowel_map = {
         'a': draw_triangle_a,
         'e': draw_triangle_e,
@@ -279,10 +278,10 @@ def draw_vowel(canvas, char, x, y, size, consonant_type, attached=False):
         'o': draw_triangle_o,
         'u': draw_triangle_u
     }
-    vowel_map[char](canvas, x, y, size, consonant_type, attached)
+    vowel_map[char](canvas, x, y, size, line_color, consonant_type, attached)
 
 
-def draw_triangle_a(canvas, x, y, size, consonant_type, attached):
+def draw_triangle_a(canvas, x, y, size, line_color, consonant_type, attached):
     if attached:
         x += size * 1.15
         if consonant_type == CONSONANT_TYPES['cut_circle']:
@@ -296,10 +295,10 @@ def draw_triangle_a(canvas, x, y, size, consonant_type, attached):
     elif not attached:
         y -= size * 0.3
 
-    canvas.create_polygon(x, y, x + size, y, x + size / 2, y - size, outline="black", width=2, fill="")
+    canvas.create_polygon(x, y, x + size, y, x + size / 2, y - size, outline=line_color, width=2, fill="")
 
 
-def draw_triangle_e(canvas, x, y, size, consonant_type, attached):
+def draw_triangle_e(canvas, x, y, size, line_color, consonant_type, attached):
     if attached:
         x += size * 1.15
         if consonant_type == CONSONANT_TYPES['cut_circle']:
@@ -313,10 +312,10 @@ def draw_triangle_e(canvas, x, y, size, consonant_type, attached):
     elif not attached:
         y -= size * 0.3
 
-    canvas.create_polygon(x, y - size, x + size, y - size, x + size / 2, y, outline="black", width=2, fill="")
+    canvas.create_polygon(x, y - size, x + size, y - size, x + size / 2, y, outline=line_color, width=2, fill="")
 
 
-def draw_triangle_i(canvas, x, y, size, consonant_type, attached):
+def draw_triangle_i(canvas, x, y, size, line_color, consonant_type, attached):
     if attached:
         x += size * 1.15
         if consonant_type == CONSONANT_TYPES['cut_circle']:
@@ -330,11 +329,11 @@ def draw_triangle_i(canvas, x, y, size, consonant_type, attached):
     elif not attached:
         y -= size * 0.3
 
-    canvas.create_polygon(x, y, x + size, y, x + size / 2, y - size, outline="black", width=2, fill="")
-    canvas.create_line(x + size / 2, y - size * 2.75, x + size / 2, y - size, fill="black", width=2)
+    canvas.create_polygon(x, y, x + size, y, x + size / 2, y - size, outline=line_color, width=2, fill="")
+    canvas.create_line(x + size / 2, y - size * 2.75, x + size / 2, y - size, fill=line_color, width=2)
 
 
-def draw_triangle_o(canvas, x, y, size, consonant_type, attached):
+def draw_triangle_o(canvas, x, y, size, line_color, consonant_type, attached):
     if attached:
         x += size * 1.15
         if consonant_type == CONSONANT_TYPES['cut_circle']:
@@ -348,10 +347,10 @@ def draw_triangle_o(canvas, x, y, size, consonant_type, attached):
     elif not attached:
         y += size * 0.4
 
-    canvas.create_polygon(x, y, x + size, y, x + size / 2, y - size, outline="black", width=2, fill="")
+    canvas.create_polygon(x, y, x + size, y, x + size / 2, y - size, outline=line_color, width=2, fill="")
 
 
-def draw_triangle_u(canvas, x, y, size, consonant_type, attached):
+def draw_triangle_u(canvas, x, y, size, line_color, consonant_type, attached):
     if attached:
         x += size * 1.15
         if consonant_type == CONSONANT_TYPES['cut_circle']:
@@ -365,6 +364,6 @@ def draw_triangle_u(canvas, x, y, size, consonant_type, attached):
     elif not attached:
         y -= size * 0.3
 
-    canvas.create_polygon(x, y, x + size, y, x + size / 2, y - size, outline="black", width=2, fill="")
-    canvas.create_line(x + size / 2, y, x + size / 2, y - size * -1.75, fill="black", width=2)
+    canvas.create_polygon(x, y, x + size, y, x + size / 2, y - size, outline=line_color, width=2, fill="")
+    canvas.create_line(x + size / 2, y, x + size / 2, y - size * -1.75, fill=line_color, width=2)
 
