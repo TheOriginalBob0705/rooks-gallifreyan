@@ -1,6 +1,7 @@
 import tkinter as tk
 import conversions
 
+
 class ShapeRenderer:
     def __init__(self, master):
         self.master = master
@@ -14,6 +15,7 @@ class ShapeRenderer:
         # Create size control widget
         self.size_scale = tk.Scale(master, from_=10, to=100, orient=tk.HORIZONTAL, command=self.on_size_change)
         self.size_scale.pack(padx=1)
+        self.size_scale.set(30)
 
         # Create canvas
         self.canvas = tk.Canvas(master, bg="white")
@@ -50,6 +52,7 @@ class ShapeRenderer:
                 x = 10  # Reset x to start a new line
                 y += self.line_height * 2  # Move to the next line
             x = conversions.render_shape(self.canvas, char, x, y, self.size)
+
 
 if __name__ == "__main__":
     root = tk.Tk()
