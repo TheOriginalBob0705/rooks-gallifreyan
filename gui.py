@@ -49,6 +49,7 @@ class ShapeRenderer:
         y = self.top_margin
         text = self.text_entry.get().lower()
         i = 0
+        prev_char = None
         while i < len(text):
             if x + self.size * 1.25 > self.canvas_width:
                 x = 10  # Reset x to start a new line
@@ -61,7 +62,8 @@ class ShapeRenderer:
                 char = text[i]
                 i += 1
 
-            x = conversions.render_shape(self.canvas, char, x, y, self.size)
+            x = conversions.render_shape(self.canvas, char, x, y, self.size, prev_char)
+            prev_char = char
 
 
 if __name__ == "__main__":

@@ -49,19 +49,6 @@ def draw_consonant(canvas, char, x, y, size):
     draw_wordline(canvas, x, y, size)
 
 
-def draw_vowel(canvas, char, x, y, size):
-    if char == 'a':
-        draw_triangle_a(canvas, x, y, size)
-    elif char == 'e':
-        draw_triangle_e(canvas, x, y, size)
-    elif char == 'i':
-        draw_triangle_i(canvas, x, y, size)
-    elif char == 'o':
-        draw_triangle_o(canvas, x, y, size, -10)
-    elif char == 'u':
-        draw_triangle_u(canvas, x, y, size)
-
-
 def draw_c(canvas, x, y, size):
     draw_floating_circle(canvas, x, y, size)
     draw_four_dots(canvas, x, y, size, size * 0.95)
@@ -260,33 +247,60 @@ def draw_combined_circle(canvas, x, y, size):
     canvas.create_oval(x, y - size // 2, x + size, y + size // 2, outline="black", width=2)
 
 
-def draw_triangle_a(canvas, x, y, size):
-    # A hollow triangle pointing up
-    size = size * 0.3
+def draw_standalone_vowel(canvas, char, x, y, size):
+    draw_vowel(canvas, char, x, y, size * 0.3)  # Vowels are 30% size
+    draw_line_under_vowel(canvas, x, y, size)
+
+
+def draw_attached_vowel(canvas, char, x, y, size):
+    draw_vowel(canvas, char, x, y, size * 0.3, attached=True)  # Vowels are 30% size
+
+
+def draw_line_under_vowel(canvas, x, y, size):
+    canvas.create_line(x, y + size * 0.35, x + size * 0.3, y + size * 0.35, fill="black", width=2)
+
+
+def draw_vowel(canvas, char, x, y, size, attached=False):
+    if char == 'a':
+        draw_triangle_a(canvas, x, y, size, attached)
+    elif char == 'e':
+        draw_triangle_e(canvas, x, y, size, attached)
+    elif char == 'i':
+        draw_triangle_i(canvas, x, y, size, attached)
+    elif char == 'o':
+        draw_triangle_o(canvas, x, y, size, attached, -10)
+    elif char == 'u':
+        draw_triangle_u(canvas, x, y, size, attached)
+
+
+def draw_triangle_a(canvas, x, y, size, attached):
+    if attached:
+        y -= size * 1.2  # Adjust position if attached
     canvas.create_polygon(x, y, x + size, y, x + size / 2, y - size, outline="black", width=2, fill="")
 
 
-def draw_triangle_e(canvas, x, y, size):
-    # A hollow triangle pointing down
-    size = size * 0.3
+def draw_triangle_e(canvas, x, y, size, attached):
+    if attached:
+        y -= size * 1.2  # Adjust position if attached
     canvas.create_polygon(x, y - size, x + size, y - size, x + size / 2, y, outline="black", width=2, fill="")
 
 
-def draw_triangle_i(canvas, x, y, size):
-    # A hollow triangle with a line coming straight up out of the top vertex
-    size = size * 0.3
+def draw_triangle_i(canvas, x, y, size, attached):
+    if attached:
+        y -= size * 1.2  # Adjust position if attached
     canvas.create_polygon(x, y, x + size, y, x + size / 2, y - size, outline="black", width=2, fill="")
     canvas.create_line(x + size / 2, y - size * 2, x + size / 2, y - size, fill="black", width=2)
 
 
-def draw_triangle_o(canvas, x, y, size, height):
-    # The base height value will ensure the triangle can be moved up or down in order to intersect with its attached consonant
-    size = size * 0.3
+def draw_triangle_o(canvas, x, y, size, attached, height):
+    if attached:
+        y -= size * 1.2  # Adjust position if attached
     canvas.create_polygon(x, y - height, x + size, y - height, x + size / 2, y - size - height, outline="black", width=2, fill="")
 
 
-def draw_triangle_u(canvas, x, y, size):
-    # A hollow triangle with a line coming straight down out of the bottom face
-    size = size * 0.3
+def draw_triangle_u(canvas, x, y, size, attached):
+    if attached:
+        y -= size * 1.2  # Adjust position if attached
     canvas.create_polygon(x, y, x + size, y, x + size / 2, y - size, outline="black", width=2, fill="")
     canvas.create_line(x + size / 2, y, x + size / 2, y - size * -1.25, fill="black", width=2)
+
