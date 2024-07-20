@@ -22,7 +22,8 @@ class ShapeRenderer:
 
         self.prev_text = ""
         self.size = 30  # Initial size
-        self.line_height = self.size * 2  # Calculate line height based on size
+        self.line_height = self.size * 1.5  # Adjusted line height based on size
+        self.top_margin = self.size * 1.75  # Adjusted top margin to avoid overflow
         self.canvas_width = self.canvas.winfo_width()
 
     def on_canvas_resize(self, event):
@@ -36,17 +37,18 @@ class ShapeRenderer:
 
     def on_size_change(self, value):
         self.size = int(value)
-        self.line_height = self.size * 2  # Recalculate line height based on new size
+        self.line_height = self.size * 1.5  # Recalculate line height based on new size
+        self.top_margin = self.size * 1.75  # Adjust top margin based on new size
         self.redraw_shapes()
 
     def redraw_shapes(self):
         self.canvas.delete("all")
         x = 10
-        y = 50
+        y = self.top_margin
         for char in self.text_entry.get():
             if x + self.size * 1.25 > self.canvas_width:
                 x = 10  # Reset x to start a new line
-                y += self.line_height  # Move to the next line
+                y += self.line_height * 2  # Move to the next line
             x = conversions.render_shape(self.canvas, char, x, y, self.size)
 
 if __name__ == "__main__":
