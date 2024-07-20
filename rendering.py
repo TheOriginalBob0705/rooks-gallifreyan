@@ -18,8 +18,72 @@ def draw_circle(canvas, x, y, size):
     canvas.create_oval(x, y, x + size, y + size, outline="black", width=2)
 
 
+def draw_cut_circle(canvas, x, y, size):
+    y_offset = size * 0.86
+    canvas.create_arc(x, y - y_offset, x + size, y + size - y_offset, start=-45, extent=270, outline="black", width=2, style=tkinter.ARC)
+    canvas.create_line(x - size * 0.25, y, x + size * 0.15, y, fill="black", width=2)
+    canvas.create_line(x + size * 0.85, y, x + size * 1.25, y, fill="black", width=2)
+
+
+def draw_floating_circle(canvas, x, y, size):
+    y_offset = size * 1.25
+    canvas.create_line(x, y, x + size, y, fill="black", width=2)
+    canvas.create_oval(x, y - y_offset, x + size, y + size - y_offset, outline="black", width=2)
+    draw_wordline(canvas, x, y, size)
+
+
+def draw_semicircle(canvas, x, y, size):
+    y_offset = size * 0.5
+    canvas.create_arc(x, y - y_offset, x + size, y + size - y_offset, start=0, extent=180, outline="black", width=2, style=tkinter.ARC)
+    draw_wordline(canvas, x, y, size)
+
+
+def draw_combined_circle(canvas, x, y, size):
+    canvas.create_oval(x, y - size // 2, x + size, y + size // 2, outline="black", width=2)
+    canvas.create_line(x, y, x + size, y, fill="black", width=2)
+
+
+def draw_one_dot(canvas, x, y, size, base_height):
+    # The base height is used to move the modifier symbols up or down relative to which consonant they are attached to
+    canvas.create_oval(x + size * 0.45, y - size * 0.4 - base_height, x + size * 0.55, y - size * 0.5 - base_height, fill="black")
+
+
+def draw_two_dots(canvas, x, y, size, base_height):
+    canvas.create_oval(x + size * 0.2, y - size * 0.35 - base_height, x + size * 0.3, y - size * 0.45 - base_height, fill="black")
+    canvas.create_oval(x + size * 0.7, y - size * 0.35 - base_height, x + size * 0.8, y - size * 0.45 - base_height, fill="black")
+
+
+def draw_three_dots(canvas, x, y, size, base_height):
+    canvas.create_oval(x + size * 0, y - size * 0.2 - base_height, x + size * 0.1, y - size * 0.3 - base_height, fill="black")
+    canvas.create_oval(x + size * 0.45, y - size * 0.4 - base_height, x + size * 0.55, y - size * 0.5 - base_height, fill="black")
+    canvas.create_oval(x + size * 0.9, y - size * 0.2 - base_height, x + size, y - size * 0.3 - base_height, fill="black")
+
+
+def draw_four_dots(canvas, x, y, size, base_height):
+    canvas.create_oval(x + size * 0, y - size * 0.2 - base_height, x + size * 0.1, y - size * 0.3 - base_height, fill="black")
+    canvas.create_oval(x + size * 0.2, y - size * 0.35 - base_height, x + size * 0.3, y - size * 0.45 - base_height, fill="black")
+    canvas.create_oval(x + size * 0.7, y - size * 0.35 - base_height, x + size * 0.8, y - size * 0.45 - base_height, fill="black")
+    canvas.create_oval(x + size * 0.9, y - size * 0.2 - base_height, x + size, y - size * 0.3 - base_height, fill="black")
+
+
+def draw_single_line(canvas, x, y, size, base_height):
+    canvas.create_line(x + size * 0.8, y - size * 0.2 - base_height, x + size * 1.2, y - size * 0.6 - base_height, fill="black", width=2)
+
+
+def draw_double_line(canvas, x, y, size, base_height):
+    # Second line starts at x 0.9 and y 0.1, but at the same angle (and shorter than the first line)
+    canvas.create_line(x + size * 0.8, y - size * 0.2 - base_height, x + size * 1.2, y - size * 0.6 - base_height, fill="black", width=2)
+    canvas.create_line(x + size * 0.9, y - size * 0.1 - base_height, x + size * 1.2, y - size * 0.4 - base_height, fill="black", width=2)
+
+
+def draw_triple_line(canvas, x, y, size, base_height):
+    canvas.create_line(x + size * 0.8, y - size * 0.2 - base_height, x + size * 1.2, y - size * 0.6 - base_height, fill="black", width=2)
+    canvas.create_line(x + size * 0.9, y - size * 0.1 - base_height, x + size * 1.2, y - size * 0.4 - base_height, fill="black", width=2)
+    canvas.create_line(x + size * 0.7, y - size * 0.28 - base_height, x + size * 0.97, y - size * 0.55 - base_height, fill="black", width=2)
+
+
 def draw_consonant(canvas, char, x, y, size):
-    base_char, consonant_type = {
+    consonant_map = {
         'b': (draw_cut_circle, CONSONANT_TYPES['cut_circle']),
         'c': (draw_c, CONSONANT_TYPES['floating_circle']),
         'd': (draw_d, CONSONANT_TYPES['cut_circle']),
@@ -51,8 +115,9 @@ def draw_consonant(canvas, char, x, y, size):
         'nd': (draw_nd, CONSONANT_TYPES['cut_circle']),
         'qu': (draw_qu, CONSONANT_TYPES['combined_circle']),
         'gh': (draw_gh, CONSONANT_TYPES['combined_circle'])
-    }.get(char, (draw_circle, CONSONANT_TYPES['default']))
+    }
 
+    base_char, consonant_type = consonant_map.get(char, (draw_circle, CONSONANT_TYPES['default']))
     base_char(canvas, x, y, size)
     draw_wordline(canvas, x, y, size)
     return consonant_type
@@ -193,77 +258,13 @@ def draw_gh(canvas, x, y, size):
     draw_one_dot(canvas, x, y, size, size * 0.2)
 
 
-def draw_one_dot(canvas, x, y, size, base_height):
-    # The base height is used to move the modifier symbols up or down relative to which consonant they are attached to
-    canvas.create_oval(x + size * 0.45, y - size * 0.4 - base_height, x + size * 0.55, y - size * 0.5 - base_height, fill="black")
-
-
-def draw_two_dots(canvas, x, y, size, base_height):
-    canvas.create_oval(x + size * 0.2, y - size * 0.35 - base_height, x + size * 0.3, y - size * 0.45 - base_height, fill="black")
-    canvas.create_oval(x + size * 0.7, y - size * 0.35 - base_height, x + size * 0.8, y - size * 0.45 - base_height, fill="black")
-
-
-def draw_three_dots(canvas, x, y, size, base_height):
-    canvas.create_oval(x + size * 0, y - size * 0.2 - base_height, x + size * 0.1, y - size * 0.3 - base_height, fill="black")
-    canvas.create_oval(x + size * 0.45, y - size * 0.4 - base_height, x + size * 0.55, y - size * 0.5 - base_height, fill="black")
-    canvas.create_oval(x + size * 0.9, y - size * 0.2 - base_height, x + size, y - size * 0.3 - base_height, fill="black")
-
-
-def draw_four_dots(canvas, x, y, size, base_height):
-    canvas.create_oval(x + size * 0, y - size * 0.2 - base_height, x + size * 0.1, y - size * 0.3 - base_height, fill="black")
-    canvas.create_oval(x + size * 0.2, y - size * 0.35 - base_height, x + size * 0.3, y - size * 0.45 - base_height, fill="black")
-    canvas.create_oval(x + size * 0.7, y - size * 0.35 - base_height, x + size * 0.8, y - size * 0.45 - base_height, fill="black")
-    canvas.create_oval(x + size * 0.9, y - size * 0.2 - base_height, x + size, y - size * 0.3 - base_height, fill="black")
-
-
-def draw_single_line(canvas, x, y, size, base_height):
-    canvas.create_line(x + size * 0.8, y - size * 0.2 - base_height, x + size * 1.2, y - size * 0.6 - base_height, fill="black", width=2)
-
-
-def draw_double_line(canvas, x, y, size, base_height):
-    # Second line starts at x 0.9 and y 0.1, but at the same angle (and shorter than the first line)
-    canvas.create_line(x + size * 0.8, y - size * 0.2 - base_height, x + size * 1.2, y - size * 0.6 - base_height, fill="black", width=2)
-    canvas.create_line(x + size * 0.9, y - size * 0.1 - base_height, x + size * 1.2, y - size * 0.4 - base_height, fill="black", width=2)
-
-
-def draw_triple_line(canvas, x, y, size, base_height):
-    canvas.create_line(x + size * 0.8, y - size * 0.2 - base_height, x + size * 1.2, y - size * 0.6 - base_height, fill="black", width=2)
-    canvas.create_line(x + size * 0.9, y - size * 0.1 - base_height, x + size * 1.2, y - size * 0.4 - base_height, fill="black", width=2)
-    canvas.create_line(x + size * 0.7, y - size * 0.28 - base_height, x + size * 0.97, y - size * 0.55 - base_height, fill="black", width=2)
-
-
-def draw_cut_circle(canvas, x, y, size):
-    y_offset = size * 0.86
-    canvas.create_arc(x, y - y_offset, x + size, y + size - y_offset, start=-45, extent=270, outline="black", width=2, style=tkinter.ARC)
-    canvas.create_line(x - size * 0.25, y, x + size * 0.15, y, fill="black", width=2)
-    canvas.create_line(x + size * 0.85, y, x + size * 1.25, y, fill="black", width=2)
-
-
-def draw_floating_circle(canvas, x, y, size):
-    y_offset = size * 1.25
-    canvas.create_line(x, y, x + size, y, fill="black", width=2)
-    canvas.create_oval(x, y - y_offset, x + size, y + size - y_offset, outline="black", width=2)
-    draw_wordline(canvas, x, y, size)
-
-
-def draw_semicircle(canvas, x, y, size):
-    y_offset = size * 0.5
-    canvas.create_arc(x, y - y_offset, x + size, y + size - y_offset, start=0, extent=180, outline="black", width=2, style=tkinter.ARC)
-    draw_wordline(canvas, x, y, size)
-
-
-def draw_combined_circle(canvas, x, y, size):
-    canvas.create_oval(x, y - size // 2, x + size, y + size // 2, outline="black", width=2)
-    canvas.create_line(x, y, x + size, y, fill="black", width=2)
-
-
 def draw_standalone_vowel(canvas, char, x, y, size, consonant_type=None):
-    draw_vowel(canvas, char, x, y, size * 0.3, consonant_type)  # Vowels are 30% size
+    draw_vowel(canvas, char, x, y, size * 0.3, consonant_type)
     draw_line_under_vowel(canvas, x, y, size)
 
 
 def draw_attached_vowel(canvas, char, x, y, size, consonant_type):
-    draw_vowel(canvas, char, x, y, size * 0.3, consonant_type, attached=True)  # Vowels are 30% size
+    draw_vowel(canvas, char, x, y, size * 0.3, consonant_type, attached=True)
 
 
 def draw_line_under_vowel(canvas, x, y, size):
@@ -271,16 +272,14 @@ def draw_line_under_vowel(canvas, x, y, size):
 
 
 def draw_vowel(canvas, char, x, y, size, consonant_type, attached=False):
-    if char == 'a':
-        draw_triangle_a(canvas, x, y, size, consonant_type, attached)
-    elif char == 'e':
-        draw_triangle_e(canvas, x, y, size, consonant_type, attached)
-    elif char == 'i':
-        draw_triangle_i(canvas, x, y, size, consonant_type, attached)
-    elif char == 'o':
-        draw_triangle_o(canvas, x, y, size, consonant_type, attached)
-    elif char == 'u':
-        draw_triangle_u(canvas, x, y, size, consonant_type, attached)
+    vowel_map = {
+        'a': draw_triangle_a,
+        'e': draw_triangle_e,
+        'i': draw_triangle_i,
+        'o': draw_triangle_o,
+        'u': draw_triangle_u
+    }
+    vowel_map[char](canvas, x, y, size, consonant_type, attached)
 
 
 def draw_triangle_a(canvas, x, y, size, consonant_type, attached):
