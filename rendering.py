@@ -1,5 +1,12 @@
 import tkinter
 
+CONSONANT_TYPES = {
+    'cut_circle': 'cut_circle',
+    'semicircle': 'semicircle',
+    'combined_circle': 'combined_circle',
+    'floating_circle': 'floating_circle',
+    'default': 'default'
+}
 
 def draw_wordline(canvas, x, y, size):
     canvas.create_line(x - size * 0.25, y, x, y, fill="black", width=2)
@@ -11,42 +18,43 @@ def draw_circle(canvas, x, y, size):
 
 
 def draw_consonant(canvas, char, x, y, size):
-    base_char = {
-        'b': draw_cut_circle,
-        'c': draw_c,
-        'd': draw_d,
-        'f': draw_f,
-        'g': draw_g,
-        'h': draw_h,
-        'j': draw_floating_circle,
-        'k': draw_k,
-        'l': draw_l,
-        'm': draw_m,
-        'n': draw_n,
-        'p': draw_p,
-        'q': draw_q,
-        'r': draw_r,
-        's': draw_s,
-        't': draw_semicircle,
-        'v': draw_v,
-        'w': draw_w,
-        'x': draw_x,
-        'y': draw_y,
-        'z': draw_z,
-        'ch': draw_ch,
-        'sh': draw_sh,
-        'th': draw_combined_circle,
-        'ng': draw_ng,
-        'ph': draw_ph,
-        'wh': draw_wh,
-        'nt': draw_nt,
-        'nd': draw_nd,
-        'qu': draw_qu,
-        'gh': draw_gh
-    }.get(char, draw_circle)
+    base_char, consonant_type = {
+        'b': (draw_cut_circle, CONSONANT_TYPES['cut_circle']),
+        'c': (draw_c, CONSONANT_TYPES['floating_circle']),
+        'd': (draw_d, CONSONANT_TYPES['cut_circle']),
+        'f': (draw_f, CONSONANT_TYPES['cut_circle']),
+        'g': (draw_g, CONSONANT_TYPES['cut_circle']),
+        'h': (draw_h, CONSONANT_TYPES['cut_circle']),
+        'j': (draw_floating_circle, CONSONANT_TYPES['floating_circle']),
+        'k': (draw_k, CONSONANT_TYPES['floating_circle']),
+        'l': (draw_l, CONSONANT_TYPES['floating_circle']),
+        'm': (draw_m, CONSONANT_TYPES['floating_circle']),
+        'n': (draw_n, CONSONANT_TYPES['floating_circle']),
+        'p': (draw_p, CONSONANT_TYPES['floating_circle']),
+        'q': (draw_q, CONSONANT_TYPES['combined_circle']),
+        'r': (draw_r, CONSONANT_TYPES['semicircle']),
+        's': (draw_s, CONSONANT_TYPES['semicircle']),
+        't': (draw_semicircle, CONSONANT_TYPES['semicircle']),
+        'v': (draw_v, CONSONANT_TYPES['semicircle']),
+        'w': (draw_w, CONSONANT_TYPES['semicircle']),
+        'x': (draw_x, CONSONANT_TYPES['combined_circle']),
+        'y': (draw_y, CONSONANT_TYPES['combined_circle']),
+        'z': (draw_z, CONSONANT_TYPES['combined_circle']),
+        'ch': (draw_ch, CONSONANT_TYPES['cut_circle']),
+        'sh': (draw_sh, CONSONANT_TYPES['semicircle']),
+        'th': (draw_combined_circle, CONSONANT_TYPES['combined_circle']),
+        'ng': (draw_ng, CONSONANT_TYPES['combined_circle']),
+        'ph': (draw_ph, CONSONANT_TYPES['floating_circle']),
+        'wh': (draw_wh, CONSONANT_TYPES['semicircle']),
+        'nt': (draw_nt, CONSONANT_TYPES['semicircle']),
+        'nd': (draw_nd, CONSONANT_TYPES['cut_circle']),
+        'qu': (draw_qu, CONSONANT_TYPES['combined_circle']),
+        'gh': (draw_gh, CONSONANT_TYPES['combined_circle'])
+    }.get(char, (draw_circle, CONSONANT_TYPES['default']))
 
     base_char(canvas, x, y, size)
     draw_wordline(canvas, x, y, size)
+    return consonant_type
 
 
 def draw_c(canvas, x, y, size):
@@ -245,62 +253,118 @@ def draw_semicircle(canvas, x, y, size):
 
 def draw_combined_circle(canvas, x, y, size):
     canvas.create_oval(x, y - size // 2, x + size, y + size // 2, outline="black", width=2)
+    canvas.create_line(x, y, x + size, y, fill="black", width=2)
 
 
-def draw_standalone_vowel(canvas, char, x, y, size):
-    draw_vowel(canvas, char, x, y, size * 0.3)  # Vowels are 30% size
+def draw_standalone_vowel(canvas, char, x, y, size, consonant_type=None):
+    draw_vowel(canvas, char, x, y, size * 0.3, consonant_type)  # Vowels are 30% size
     draw_line_under_vowel(canvas, x, y, size)
 
 
-def draw_attached_vowel(canvas, char, x, y, size):
-    draw_vowel(canvas, char, x, y, size * 0.3, attached=True)  # Vowels are 30% size
+def draw_attached_vowel(canvas, char, x, y, size, consonant_type):
+    draw_vowel(canvas, char, x, y, size * 0.3, consonant_type, attached=True)  # Vowels are 30% size
 
 
 def draw_line_under_vowel(canvas, x, y, size):
-    canvas.create_line(x, y + size * 0.35, x + size * 0.3, y + size * 0.35, fill="black", width=2)
+    canvas.create_line(x - size * 0.25, y, x + size * 0.45, y, fill="black", width=2)
 
 
-def draw_vowel(canvas, char, x, y, size, attached=False):
+def draw_vowel(canvas, char, x, y, size, consonant_type, attached=False):
     if char == 'a':
-        draw_triangle_a(canvas, x, y, size, attached)
+        draw_triangle_a(canvas, x, y, size, consonant_type, attached)
     elif char == 'e':
-        draw_triangle_e(canvas, x, y, size, attached)
+        draw_triangle_e(canvas, x, y, size, consonant_type, attached)
     elif char == 'i':
-        draw_triangle_i(canvas, x, y, size, attached)
+        draw_triangle_i(canvas, x, y, size, consonant_type, attached)
     elif char == 'o':
-        draw_triangle_o(canvas, x, y, size, attached, -10)
+        draw_triangle_o(canvas, x, y, size, consonant_type, attached)
     elif char == 'u':
-        draw_triangle_u(canvas, x, y, size, attached)
+        draw_triangle_u(canvas, x, y, size, consonant_type, attached)
 
 
-def draw_triangle_a(canvas, x, y, size, attached):
+def draw_triangle_a(canvas, x, y, size, consonant_type, attached):
     if attached:
-        y -= size * 1.2  # Adjust position if attached
+        x += size * 1.15
+        if consonant_type == CONSONANT_TYPES['cut_circle']:
+            y -= size * 0.75
+        elif consonant_type == CONSONANT_TYPES['floating_circle']:
+            y -= size * 2
+        elif consonant_type == CONSONANT_TYPES['combined_circle']:
+            y -= size * 0.3
+        elif consonant_type == CONSONANT_TYPES['semicircle']:
+            y -= size * 0.3
+    elif not attached:
+        y -= size * 0.3
+
     canvas.create_polygon(x, y, x + size, y, x + size / 2, y - size, outline="black", width=2, fill="")
 
 
-def draw_triangle_e(canvas, x, y, size, attached):
+def draw_triangle_e(canvas, x, y, size, consonant_type, attached):
     if attached:
-        y -= size * 1.2  # Adjust position if attached
+        x += size * 1.15
+        if consonant_type == CONSONANT_TYPES['cut_circle']:
+            y -= size * 0.75
+        elif consonant_type == CONSONANT_TYPES['floating_circle']:
+            y -= size * 2
+        elif consonant_type == CONSONANT_TYPES['combined_circle']:
+            y -= size * 0.3
+        elif consonant_type == CONSONANT_TYPES['semicircle']:
+            y -= size * 0.3
+    elif not attached:
+        y -= size * 0.3
+
     canvas.create_polygon(x, y - size, x + size, y - size, x + size / 2, y, outline="black", width=2, fill="")
 
 
-def draw_triangle_i(canvas, x, y, size, attached):
+def draw_triangle_i(canvas, x, y, size, consonant_type, attached):
     if attached:
-        y -= size * 1.2  # Adjust position if attached
+        x += size * 1.15
+        if consonant_type == CONSONANT_TYPES['cut_circle']:
+            y -= size * 0.75
+        elif consonant_type == CONSONANT_TYPES['floating_circle']:
+            y -= size * 2
+        elif consonant_type == CONSONANT_TYPES['combined_circle']:
+            y -= size * 0.3
+        elif consonant_type == CONSONANT_TYPES['semicircle']:
+            y -= size * 0.3
+    elif not attached:
+        y -= size * 0.3
+
     canvas.create_polygon(x, y, x + size, y, x + size / 2, y - size, outline="black", width=2, fill="")
-    canvas.create_line(x + size / 2, y - size * 2, x + size / 2, y - size, fill="black", width=2)
+    canvas.create_line(x + size / 2, y - size * 2.75, x + size / 2, y - size, fill="black", width=2)
 
 
-def draw_triangle_o(canvas, x, y, size, attached, height):
+def draw_triangle_o(canvas, x, y, size, consonant_type, attached):
     if attached:
-        y -= size * 1.2  # Adjust position if attached
-    canvas.create_polygon(x, y - height, x + size, y - height, x + size / 2, y - size - height, outline="black", width=2, fill="")
+        x += size * 1.15
+        if consonant_type == CONSONANT_TYPES['cut_circle']:
+            y -= size * 2.4
+        elif consonant_type == CONSONANT_TYPES['floating_circle']:
+            y -= size * 3.75
+        elif consonant_type == CONSONANT_TYPES['combined_circle']:
+            y -= size * 1.25
+        elif consonant_type == CONSONANT_TYPES['semicircle']:
+            y -= size * 1.25
+    elif not attached:
+        y += size * 0.4
 
-
-def draw_triangle_u(canvas, x, y, size, attached):
-    if attached:
-        y -= size * 1.2  # Adjust position if attached
     canvas.create_polygon(x, y, x + size, y, x + size / 2, y - size, outline="black", width=2, fill="")
-    canvas.create_line(x + size / 2, y, x + size / 2, y - size * -1.25, fill="black", width=2)
+
+
+def draw_triangle_u(canvas, x, y, size, consonant_type, attached):
+    if attached:
+        x += size * 1.15
+        if consonant_type == CONSONANT_TYPES['cut_circle']:
+            y -= size * 0.75
+        elif consonant_type == CONSONANT_TYPES['floating_circle']:
+            y -= size * 2
+        elif consonant_type == CONSONANT_TYPES['combined_circle']:
+            y -= size * 0.3
+        elif consonant_type == CONSONANT_TYPES['semicircle']:
+            y -= size * 0.3
+    elif not attached:
+        y -= size * 0.3
+
+    canvas.create_polygon(x, y, x + size, y, x + size / 2, y - size, outline="black", width=2, fill="")
+    canvas.create_line(x + size / 2, y, x + size / 2, y - size * -1.75, fill="black", width=2)
 

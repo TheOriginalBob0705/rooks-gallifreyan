@@ -27,6 +27,7 @@ class ShapeRenderer:
         self.line_height = self.size * 1.5  # Adjusted line height based on size
         self.top_margin = self.size * 1.75  # Adjusted top margin to avoid overflow
         self.canvas_width = self.canvas.winfo_width()
+        self.prev_consonant_type = None  # Initialize previous consonant type
 
     def on_canvas_resize(self, event):
         self.canvas_width = event.width
@@ -35,7 +36,6 @@ class ShapeRenderer:
     def on_text_change(self, event):
         current_text = self.text_entry.get()
         if current_text != self.prev_text:
-            self.prev_text = current_text
             self.redraw_shapes()
 
     def on_size_change(self, value):
@@ -51,6 +51,8 @@ class ShapeRenderer:
         text = self.text_entry.get().lower()
         i = 0
         prev_char = None
+        self.prev_consonant_type = None  # Reset previous consonant type for new drawing
+
         while i < len(text):
             if x + self.size * 1.25 > self.canvas_width:
                 x = 10  # Reset x to start a new line
@@ -63,8 +65,13 @@ class ShapeRenderer:
                 char = text[i]
                 i += 1
 
-            x = conversions.render_shape(self.canvas, char, x, y, self.size, prev_char)
-            prev_char = char
+            if char == ' ':
+                x += self.size * 0.6  # Adjust space width
+                prev_char = None
+                self.prev_consonant_type = None  # Reset previous consonant type for space
+            else:
+                x, self.prev_consonant_type = conversions.render_shape(self.canvas, char, x, y, self.size, prev_char, self.prev_consonant_type)
+                prev_char = char
 
 
 if __name__ == "__main__":
