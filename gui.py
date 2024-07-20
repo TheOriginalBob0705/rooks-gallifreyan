@@ -35,6 +35,7 @@ class ShapeRenderer:
     def on_text_change(self, event):
         current_text = self.text_entry.get()
         if current_text != self.prev_text:
+            self.prev_text = current_text
             self.redraw_shapes()
 
     def on_size_change(self, value):
