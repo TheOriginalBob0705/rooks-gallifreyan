@@ -1,5 +1,5 @@
 import tkinter as tk
-import conversions
+from conversions import render_shape, double_consonants
 
 
 class ShapeRenderer:
@@ -10,67 +10,47 @@ class ShapeRenderer:
         # Create entry widget
         self.text_entry = tk.Entry(master)
         self.text_entry.pack(fill=tk.X, padx=10, pady=10)
-        self.text_entry.bind("<KeyRelease>", self.on_text_change)
+        self.text_entry.bind("<KeyRelease>", self.redraw_shapes)
 
         # Create size control widget
-        self.size_scale = tk.Scale(master, from_=10, to=100, orient=tk.HORIZONTAL, command=self.on_size_change)
+        self.size_scale = tk.Scale(master, from_=10, to=100, orient=tk.HORIZONTAL, command=self.update_size)
         self.size_scale.pack(padx=1)
         self.size_scale.set(30)
 
         # Create canvas
         self.canvas = tk.Canvas(master, bg="white")
         self.canvas.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
-        self.canvas.bind("<Configure>", self.on_canvas_resize)
+        self.canvas.bind("<Configure>", self.redraw_shapes)
 
-        self.prev_text = ""
         self.size = 30  # Initial size
-        self.line_height = self.size * 1.5  # Adjusted line height based on size
-        self.top_margin = self.size * 1.75  # Adjusted top margin to avoid overflow
-        self.canvas_width = self.canvas.winfo_width()
-        self.prev_consonant_type = None  # Initialize previous consonant type
+        self.update_layout_params()
 
-    def on_canvas_resize(self, event):
-        self.canvas_width = event.width
-        self.redraw_shapes()
-
-    def on_text_change(self, event):
-        current_text = self.text_entry.get()
-        if current_text != self.prev_text:
-            self.redraw_shapes()
-
-    def on_size_change(self, value):
+    def update_size(self, value):
         self.size = int(value)
-        self.line_height = self.size * 1.5  # Recalculate line height based on new size
-        self.top_margin = self.size * 1.75  # Adjust top margin based on new size
+        self.update_layout_params()
         self.redraw_shapes()
 
-    def redraw_shapes(self):
+    def update_layout_params(self):
+        self.line_height = self.size * 1.5
+        self.top_margin = self.size * 1.75
+
+    def redraw_shapes(self, event=None):
         self.canvas.delete("all")
-        x = 10
-        y = self.top_margin
+        x, y = 10, self.top_margin
         text = self.text_entry.get().lower()
-        i = 0
-        prev_char = None
-        self.prev_consonant_type = None  # Reset previous consonant type for new drawing
+        prev_char, prev_consonant_type = None, None
 
-        while i < len(text):
-            if x + self.size * 1.25 > self.canvas_width:
-                x = 10  # Reset x to start a new line
-                y += self.line_height * 2  # Move to the next line
-
-            if i < len(text) - 1 and text[i:i+2] in conversions.double_consonants:
-                char = text[i:i+2]
-                i += 2
-            else:
-                char = text[i]
-                i += 1
+        for i, char in enumerate(text):
+            if x + self.size * 1.25 > self.canvas.winfo_width():
+                x, y = 10, y + self.line_height * 2
 
             if char == ' ':
-                x += self.size * 0.6  # Adjust space width
-                prev_char = None
-                self.prev_consonant_type = None  # Reset previous consonant type for space
+                x += self.size
+                prev_char, prev_consonant_type = None, None
             else:
-                x, self.prev_consonant_type = conversions.render_shape(self.canvas, char, x, y, self.size, prev_char, self.prev_consonant_type)
+                if i < len(text) - 1 and text[i:i + 2] in double_consonants:
+                    char = text[i:i + 2]
+                x, prev_consonant_type = render_shape(self.canvas, char, x, y, self.size, prev_char, prev_consonant_type)
                 prev_char = char
 
 

@@ -8,6 +8,7 @@ CONSONANT_TYPES = {
     'default': 'default'
 }
 
+
 def draw_wordline(canvas, x, y, size):
     canvas.create_line(x - size * 0.25, y, x, y, fill="black", width=2)
     canvas.create_line(x + size, y, x + size * 1.25, y, fill="black", width=2)
