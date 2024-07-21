@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import filedialog, colorchooser
+from tkinter import ttk, filedialog, colorchooser
 from conversions import render_shape, double_consonants
 
 
@@ -34,7 +34,7 @@ class ShapeRenderer:
         self.canvas_width = self.canvas.winfo_width()
         self.prev_consonant_type = None
 
-        self.master.geometry("1080x800")
+        self.master.geometry("1920x1080")
         self.master.bind("<Control-s>", self.save_text_to_file)
         self.master.bind("<Control-S>", self.save_canvas_to_image)
         self.master.bind("<Control-o>", self.open_file)
@@ -61,6 +61,9 @@ class ShapeRenderer:
         line_color_button = tk.Button(toolbar, text="Line Colour", command=self.choose_line_color)
         line_color_button.pack(side=tk.LEFT, padx=2, pady=2)
 
+        size_slider = ttk.Scale(toolbar, from_=10, to=100, orient=tk.HORIZONTAL, command=self.on_size_change)
+        size_slider.pack(side=tk.LEFT, padx=2, pady=2)
+
         toolbar.pack(side=tk.BOTTOM, fill=tk.X)
 
     def toggle_dark_mode(self):
@@ -85,8 +88,8 @@ class ShapeRenderer:
         if file_path:
             with open(file_path, "r") as file:
                 text = file.read()
-                self.text_entry.delete(0, tk.END)
-                self.text_entry.insert(0, text)
+                self.text_entry.delete(1.0, tk.END)
+                self.text_entry.insert(1.0, text)
             self.redraw_shapes()
 
     def save_canvas_to_image(self, event=None):
@@ -97,7 +100,7 @@ class ShapeRenderer:
         file_path = filedialog.asksaveasfilename(filetypes=[("Text files", "*.txt")])
         if file_path:
             with open(file_path, "w") as file:
-                file.write(self.text_entry.get())
+                file.write(self.text_entry.get(1.0, tk.END))
 
     def on_canvas_resize(self, event):
         self.canvas_width = event.width
@@ -107,17 +110,9 @@ class ShapeRenderer:
         self.redraw_shapes()
 
     def on_size_change(self, value):
-        self.size = int(value)
+        self.size = int(float(value))
         self.line_height = self.size * 1.5
         self.space_size = self.size
-        self.redraw_shapes()
-
-    def on_line_height_change(self, value):
-        self.line_height = int(value)
-        self.redraw_shapes()
-
-    def on_space_size_change(self, value):
-        self.space_size = int(value)
         self.redraw_shapes()
 
     def redraw_shapes(self):

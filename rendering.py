@@ -45,7 +45,7 @@ def draw_combined_circle(canvas, x, y, size, line_color):
 
 def draw_one_dot(canvas, x, y, size, base_height, line_color):
     # The base height is used to move the modifier symbols up or down relative to which consonant they are attached to
-    canvas.create_oval(x + size * 0.45, y - size * 0.4 - base_height, x + size * 0.55, y - size * 0.5 - base_height, fill=line_color, outline=line_color)
+    canvas.create_oval(x + size * 0.45, y - size * 0.6 - base_height, x + size * 0.55, y - size * 0.7 - base_height, fill=line_color, outline=line_color)
 
 
 def draw_two_dots(canvas, x, y, size, base_height, line_color):
@@ -55,7 +55,7 @@ def draw_two_dots(canvas, x, y, size, base_height, line_color):
 
 def draw_three_dots(canvas, x, y, size, base_height, line_color):
     canvas.create_oval(x + size * 0, y - size * 0.2 - base_height, x + size * 0.1, y - size * 0.3 - base_height, fill=line_color, outline=line_color)
-    canvas.create_oval(x + size * 0.45, y - size * 0.4 - base_height, x + size * 0.55, y - size * 0.5 - base_height, fill=line_color, outline=line_color)
+    canvas.create_oval(x + size * 0.45, y - size * 0.6 - base_height, x + size * 0.55, y - size * 0.7 - base_height, fill=line_color, outline=line_color)
     canvas.create_oval(x + size * 0.9, y - size * 0.2 - base_height, x + size, y - size * 0.3 - base_height, fill=line_color, outline=line_color)
 
 
