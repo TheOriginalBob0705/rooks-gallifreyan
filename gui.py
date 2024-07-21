@@ -138,7 +138,7 @@ class ShapeRenderer:
             if i < len(text) - 2 and text[i:i + 3] == "...":
                 char = "..."
                 i += 3
-            elif i < len(text) - 1 and text[i:i + 2] in double_consonants:
+            elif i < len(text) - 1 and text[i:i + 2] in double_consonants or text[i:i + 2] == "?!":
                 char = text[i:i + 2]
                 i += 2
             else:

@@ -281,7 +281,7 @@ def draw_vowel(canvas, char, x, y, size, line_color, consonant_type, attached=Fa
     vowel_map[char](canvas, x, y, size, line_color, consonant_type, attached)
 
 
-def draw_triangle_a(canvas, x, y, size, line_color, consonant_type, attached):
+def return_attached_coordinates(x, y, size, consonant_type, attached):
     if attached:
         x += size * 1.15
         if consonant_type == CONSONANT_TYPES['cut_circle']:
@@ -294,40 +294,24 @@ def draw_triangle_a(canvas, x, y, size, line_color, consonant_type, attached):
             y -= size * 0.3
     elif not attached:
         y -= size * 0.3
+
+    return x, y
+
+
+def draw_triangle_a(canvas, x, y, size, line_color, consonant_type, attached):
+    x, y = return_attached_coordinates(x, y, size, consonant_type, attached)
 
     canvas.create_polygon(x, y, x + size, y, x + size / 2, y - size, outline=line_color, width=2, fill="")
 
 
 def draw_triangle_e(canvas, x, y, size, line_color, consonant_type, attached):
-    if attached:
-        x += size * 1.15
-        if consonant_type == CONSONANT_TYPES['cut_circle']:
-            y -= size * 0.75
-        elif consonant_type == CONSONANT_TYPES['floating_circle']:
-            y -= size * 2
-        elif consonant_type == CONSONANT_TYPES['combined_circle']:
-            y -= size * 0.3
-        elif consonant_type == CONSONANT_TYPES['semicircle']:
-            y -= size * 0.3
-    elif not attached:
-        y -= size * 0.3
+    x, y = return_attached_coordinates(x, y, size, consonant_type, attached)
 
     canvas.create_polygon(x, y - size, x + size, y - size, x + size / 2, y, outline=line_color, width=2, fill="")
 
 
 def draw_triangle_i(canvas, x, y, size, line_color, consonant_type, attached):
-    if attached:
-        x += size * 1.15
-        if consonant_type == CONSONANT_TYPES['cut_circle']:
-            y -= size * 0.75
-        elif consonant_type == CONSONANT_TYPES['floating_circle']:
-            y -= size * 2
-        elif consonant_type == CONSONANT_TYPES['combined_circle']:
-            y -= size * 0.3
-        elif consonant_type == CONSONANT_TYPES['semicircle']:
-            y -= size * 0.3
-    elif not attached:
-        y -= size * 0.3
+    x, y = return_attached_coordinates(x, y, size, consonant_type, attached)
 
     canvas.create_polygon(x, y, x + size, y, x + size / 2, y - size, outline=line_color, width=2, fill="")
     canvas.create_line(x + size / 2, y - size * 2.75, x + size / 2, y - size, fill=line_color, width=2)
@@ -351,21 +335,35 @@ def draw_triangle_o(canvas, x, y, size, line_color, consonant_type, attached):
 
 
 def draw_triangle_u(canvas, x, y, size, line_color, consonant_type, attached):
-    if attached:
-        x += size * 1.15
-        if consonant_type == CONSONANT_TYPES['cut_circle']:
-            y -= size * 0.75
-        elif consonant_type == CONSONANT_TYPES['floating_circle']:
-            y -= size * 2
-        elif consonant_type == CONSONANT_TYPES['combined_circle']:
-            y -= size * 0.3
-        elif consonant_type == CONSONANT_TYPES['semicircle']:
-            y -= size * 0.3
-    elif not attached:
-        y -= size * 0.3
+    x, y = return_attached_coordinates(x, y, size, consonant_type, attached)
 
     canvas.create_polygon(x, y, x + size, y, x + size / 2, y - size, outline=line_color, width=2, fill="")
     canvas.create_line(x + size / 2, y, x + size / 2, y - size * -1.75, fill=line_color, width=2)
+
+
+def draw_punctuation(canvas, char, x, y, size, line_color):
+    consonant_map = {
+        '.': (draw_period, 0.6),
+        ',': (draw_comma, 0.7),
+        ';': (draw_semicolon, 0.6),
+        ':': (draw_colon, 0.6),
+        '-': (draw_dash, 1.0),
+        '?': (draw_question_mark, 0.6),
+        '!': (draw_exclamation_mark, 0.6),
+        '\'': (draw_apostrophe, 0.3),
+        '"': (draw_quote_mark, 0.5),
+        '...': (draw_ellipsis, 1.5),
+        '(': (draw_open_bracket, 1.0),
+        ')': (draw_close_bracket, 1.0),
+        '[': (draw_open_square_bracket, 1.0),
+        ']': (draw_close_square_bracket, 1.0),
+        '/': (draw_forward_slash, 1.5),
+        '&': (draw_ampersand, 0.5)
+    }
+
+    base_char, line_size = consonant_map.get(char, (draw_circle, float))
+    base_char(canvas, x, y, size, line_color)
+    return line_size
 
 
 def draw_period(canvas, x, y, size, line_color):
